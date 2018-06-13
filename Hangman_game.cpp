@@ -13,18 +13,19 @@
 #include <time.h>
 #include <typeinfo>
 
+
 using namespace std;
 
 const int MAXLENGTH=80;
-const int MAXROW=7;
 const int MAX_TRIES = 9;
 
 int letterFill (char, char[], char[]);
-void initUnknownWordWithStars (char[], char[]);
+void initializeUnknownWordWithStars (char[], char[]);
 
 int main () {
-	char unknown [MAXLENGTH];
-	char letter;
+	char unknown_word [MAXLENGTH];
+	std::string already_guessed_letters;
+	char guessed_letter;
 	int number_of_tries = 0;
 	char word[MAXLENGTH];
 	char words[][MAXLENGTH] ={
@@ -37,17 +38,14 @@ int main () {
 		"bulgaria",
 		"namibia",
 		"mongolia",
-		"singapore",
-		"indonesia"
+		"singapore"
 	};
 
-	//choose and copy a word from array of words randomly
-	srand(time(NULL));
-	int random_number = rand() % 10 +1;
-	cout << "Random number: " << random_number << endl;
-	strcpy(word, words[random_number]);
+	srand(time(NULL)); // seed
+	int random_number = rand() % 10 +1; // get a random number between 1 and 10
+	strcpy(word, words[random_number]); // Copy the randomly selected word from the array
 
-	initUnknownWordWithStars(word, unknown);
+	initializeUnknownWordWithStars(word, unknown_word);
 
 	cout << "Welcome to this awesome Hangman game!" << endl;
 	cout << "Guess a country name."<< endl;
@@ -56,20 +54,24 @@ int main () {
 
 
 	while (number_of_tries < MAX_TRIES) {
-		cout << unknown << endl;
+		cout << unknown_word << endl;
 		cout << "\n\nGuess a letter: " << endl;
-		cin >> letter;
-		letter = tolower(letter); // To lowercase
+		cin >> guessed_letter;
+		guessed_letter = tolower(guessed_letter); // To lowercase
+		already_guessed_letters = already_guessed_letters + guessed_letter + " ";
 		number_of_tries++;
 
-		if (letterFill(letter, word, unknown)==0) {
+		if (letterFill(guessed_letter, word, unknown_word)==0) {
 			cout << endl << "\nWhoops! That letter isn't in there!" << endl;
 			cout << "You have " << MAX_TRIES - number_of_tries << " guesses left." << endl;
+			cout << "Already guessed: " << already_guessed_letters <<endl;
 		}
 		else {
 			cout << endl << "\nYou found a letter! Isn't that exciting!" << endl;
 			cout << "You have " <<MAX_TRIES - number_of_tries << " guesses left." << endl;
-			if (strcmp(word, unknown) == 0) {
+			cout << "Already guessed: " << already_guessed_letters <<endl;
+
+			if (strcmp(word, unknown_word) == 0) {
 				cout << word << endl;
 				cout << "\nCongratulations, you won the game!" << endl;
 				break;
@@ -90,16 +92,13 @@ int main () {
  Also, returns zero if the character is already guessed. */
 
 int letterFill (char guess, char secretword[], char guessword[]) {
-	int i;
 	int matches=0;
-	for (i = 0; secretword[i]!='\0'; i++)
-	{
+	for (int i = 0; secretword[i]!='\0'; i++) {
 		// Did we already match this letter in a previous guess?
 		if (guess == guessword[i])
 			return 0;
 		// Is the guess in the secret word?
-		if (guess == secretword[i])
-		{
+		if (guess == secretword[i]) {
 			guessword[i] = guess;
 			matches++;
 		}
@@ -108,10 +107,10 @@ int letterFill (char guess, char secretword[], char guessword[]) {
 }
 
 
-void initUnknownWordWithStars (char word[], char unknown[]) {
+void initializeUnknownWordWithStars (char word[], char unknown_word[]) {
 	int i;
 	int length = strlen(word);
 	for (i = 0; i < length; i++)
-		unknown[i]='*';
-	unknown[i]='\0';
+		unknown_word[i]='*';
+	unknown_word[i]='\0';
 }
