@@ -6,22 +6,14 @@
 // Description : Hangman game in C++
 //============================================================================
 
-#include <iostream>
-#include <stdlib.h>
-#include <string.h>
-#include <conio.h>
-#include <time.h>
-#include <sstream>
+#include "hangman.h"
 
-using namespace std;
+int main (){
+	createHangmanGame();
+	return 0;
+}
 
-const int MAXLENGTH=80;
-const int MAX_TRIES = 12;
-
-int letterFill (char, char[], char[]);
-void initializeUnknownWordWithStars (char[], char[]);
-
-int main () {
+void createHangmanGame () {
 	std::string playername;
 	std::string already_guessed_letters;
 	std::size_t found;
@@ -101,7 +93,6 @@ int main () {
 		}
 	}
 	getch(); // måste ha denna annars funkar inte inläggningen av gissningar
-	return 0;
 }
 
 
