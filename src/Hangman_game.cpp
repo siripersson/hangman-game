@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : Hangman_game.cpp
-// Author      : 
-// Version     :
+// Author      : Siri Persson
+// Version     : 1
 // Copyright   : Your copyright notice
 // Description : Hangman game in C++
 //============================================================================
@@ -23,10 +23,10 @@ void initializeUnknownWordWithStars (char[], char[]);
 
 int main () {
 	std::string playername;
-	char guessed_letter;
+	std::string already_guessed_letters;
 	std::size_t found;
 	int number_of_tries = 0;
-	std::string already_guessed_letters;
+	char guessed_letter;
 	char unknown_word [MAXLENGTH];
 	char word[MAXLENGTH];
 	char allWords[][MAXLENGTH] ={
@@ -42,34 +42,31 @@ int main () {
 		"singapore"
 	};
 
-	srand(time(NULL)); // seed
-	int random_number = rand() % 10 +1; // get a random number between 1 and 10
-	strcpy(word, allWords[random_number]); // Copy the randomly selected word from the array
+	srand(time(NULL));
+	int random_number = rand() % 10 +1;
+	strcpy(word, allWords[random_number]);
 
 	initializeUnknownWordWithStars(word, unknown_word);
 
 	cout << "\nType your name: " << endl;
 	cin >> playername;
-
 	cout << "\nWelcome " << playername << " to this awesome Hangman game!" << endl;
 	cout << "Guess a country name."<< endl;
 	cout << "Each letter is represented by a star. You have to type only one letter in one try"<< endl;
 	cout << "You have " << MAX_TRIES << " tries to try and guess the word"<< endl;
 
-
 	while (number_of_tries < MAX_TRIES) {
-		// while (already_guessed_letters.find(guessed_letter) == std::string::npos) {// while not found in previous guesses
 		cout << unknown_word << endl;
 		cout << "\nGuess a letter: " << endl;
 		cin >> guessed_letter;
-		guessed_letter = tolower(guessed_letter); // To lowercase
+		guessed_letter = tolower(guessed_letter);
 
 		std::string string_letter;
 		stringstream ss;
 		ss << guessed_letter;
 		ss >> string_letter;
 		found=already_guessed_letters.find(string_letter);
-		cout << "Npos: " << std::string::npos << endl;
+
 		if (found!=std::string::npos){
 			cout << endl << "You have already guessed this letter. Try again!" << endl;
 		}
@@ -116,17 +113,9 @@ void initializeUnknownWordWithStars (char word[], char unknown_word[]) {
 	unknown_word[i]='\0';
 }
 
-/* Take a one character guess and the secret word, and fill in the
- unfinished guessword. Returns number of characters matched.
- Also, returns zero if the character is already guessed. */
-
 int letterFill (char guess, char secretword[], char guessword[]) {
 	int matches=0;
 	for (int i = 0; secretword[i]!='\0'; i++) {
-		// Did we already match this letter in a previous guess?
-		if (guess == guessword[i])
-			return 0;
-		// Is the guess in the secret word?
 		if (guess == secretword[i]) {
 			guessword[i] = guess;
 			matches++;
