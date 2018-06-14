@@ -5,7 +5,6 @@
 // Copyright   : Your copyright notice
 // Description : Hangman game in C++
 //============================================================================
-
 #include "hangman.h"
 
 int main (){
