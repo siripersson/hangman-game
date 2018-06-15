@@ -7,11 +7,6 @@
 //============================================================================
 #include "hangman.h"
 
-int main (){
-	startHangmanGame();
-	return 0;
-}
-
 void startHangmanGame () {
 	std::string playername;
 	std::string already_guessed_letters;

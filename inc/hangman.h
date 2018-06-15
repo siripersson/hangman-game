@@ -1,7 +1,5 @@
 
-// include guard
-#ifndef __MYCLASS_H_INCLUDED__
-#define __MYCLASS_H_INCLUDED__
+#pragma once // include guard
 
 #include <iostream>
 #include <stdlib.h>
@@ -27,4 +25,3 @@ void displayNumberOfTriesLeft( int number_of_tries );
 void displayAlreadyGuessedLetters( std::string already_guessed_letters );
 void incrementNumberOfTriesAndAlreadyGuesssedLetters( char guessed_letter, std::string already_guessed_letters, int number_of_tries );
 
-#endif // __MYCLASS_H_INCLUDED__
